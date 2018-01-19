@@ -1,0 +1,4 @@
+include 'calculator-war'
+include 'calculator-ear'
+include 'calculator-api'
+include 'calculator-core'

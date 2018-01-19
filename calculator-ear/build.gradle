@@ -1,0 +1,29 @@
+apply plugin: 'ear'
+
+dependencies {
+	 deploy project(path: ':calculator-war', configuration: 'archives')
+	 earlib project(':calculator-api')
+	 earlib project(':calculator-core')
+}
+ear {
+	deploymentDescriptor {
+         def warName = project(':calculator-war').name
+         def warVersion = project(':calculator-war').version
+         def warFileName = warName + '-' + warVersion + '.war'
+         webModule(warFileName, 'calculator')
+   	} 
+}
+
+task deploy(type: Copy) {
+    group 'Custom tasks for development uses'
+    description 'Deploy the EAR file into Wildfly Application Server'
+    
+    def earName = project(':calculator-ear').name
+    def earVersion = project(':calculator-ear').version
+    def earFileName = earName + '-' + earVersion + '.ear'
+         
+	from project.buildDir.path + "/libs/" + earFileName
+	into "/Users/edilson/develop/wildfly-11.0.0.Final/standalone/deployments"
+}
+
+deploy.dependsOn build
