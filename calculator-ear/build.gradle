@@ -1,5 +1,7 @@
 apply plugin: 'ear'
 
+def wildflyHomeDir = System.getenv('WILDFLY_HOME')
+
 dependencies {
 	 deploy project(path: ':calculator-war', configuration: 'archives')
 	 earlib project(':calculator-api')
@@ -23,7 +25,8 @@ task deploy(type: Copy) {
     def earFileName = earName + '-' + earVersion + '.ear'
          
 	from project.buildDir.path + "/libs/" + earFileName
-	into "/Users/edilson/develop/wildfly-11.0.0.Final/standalone/deployments"
+    
+	into "${wildflyHomeDir}/standalone/deployments"
 }
 
 deploy.dependsOn build
